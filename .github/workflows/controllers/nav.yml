@@ -1,0 +1,81 @@
+name: "NAV — Integration Map Builder"
+
+on:
+  workflow_dispatch:
+    inputs:
+      mission_id:
+        description: "Mission ID (e.g. MSN-a1b2c3d4e5f67890)"
+        required: true
+        type: string
+      phase:
+        description: "Phase number"
+        required: true
+        type: string
+        default: "1"
+      repos:
+        description: "Comma-separated repos to scan"
+        required: true
+        type: string
+      ecosystem_url:
+        description: "Ecosystem service URL"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  nav:
+    name: "NAV corpus ingestion"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mc-state
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Configure git
+        run: |
+          git config user.name "taem-flight[bot]"
+          git config user.email "flight@taem-dev.github.io"
+
+      - name: Create mission directory
+        run: mkdir -p "missions/${{ inputs.mission_id }}"
+
+      - name: Build integration map
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ECOSYSTEM_URL: ${{ inputs.ecosystem_url || secrets.ECOSYSTEM_URL || '' }}
+        run: |
+          python3 scripts/build_integration_map.py \
+            --mission-id "${{ inputs.mission_id }}" \
+            --mission-dir "missions/${{ inputs.mission_id }}" \
+            --repos "${{ inputs.repos }}" \
+            --gh-token "$GH_TOKEN" \
+            ${{ inputs.ecosystem_url && format('--ecosystem-url {0}', inputs.ecosystem_url) || '' }}
+
+      - name: Commit integration map
+        run: |
+          git add "missions/${{ inputs.mission_id }}/integration-map.json"
+          git pull --rebase origin main
+          git commit -m "taem: NAV integration-map for ${{ inputs.mission_id }}"
+          git push origin main
+
+      - name: Append NAV GO signal
+        run: |
+          python3 scripts/append_signal.py \
+            --mission-id "${{ inputs.mission_id }}" \
+            --mission-dir "missions/${{ inputs.mission_id }}" \
+            --controller NAV \
+            --phase ${{ inputs.phase }} \
+            --signal GO \
+            --reason "Integration map built for $(echo '${{ inputs.repos }}' | tr ',' ' ' | wc -w | tr -d ' ') repo(s)"

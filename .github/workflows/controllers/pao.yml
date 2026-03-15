@@ -1,0 +1,72 @@
+name: "PAO — Public Affairs Dispatch"
+
+on:
+  workflow_dispatch:
+    inputs:
+      mission_id:
+        description: "Mission ID"
+        required: true
+        type: string
+      phase:
+        description: "Phase number"
+        required: true
+        type: string
+        default: "6"
+
+permissions:
+  contents: write
+
+jobs:
+  pao:
+    name: "PAO dispatch"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mc-state
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Configure git
+        run: |
+          git config user.name "taem-flight[bot]"
+          git config user.email "flight@taem-dev.github.io"
+
+      - name: Read LANDED.md
+        id: landed
+        run: |
+          LANDED_PATH="missions/${{ inputs.mission_id }}/LANDED.md"
+          if [ -f "$LANDED_PATH" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "path=$LANDED_PATH" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Dispatch to fabric-social
+        if: steps.landed.outputs.exists == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ry-ops/fabric-social
+          event-type: mission-landed
+          client-payload: |
+            {
+              "mission_id": "${{ inputs.mission_id }}",
+              "mc_state_repo": "TAEM-DEV/mc-state",
+              "landed_path": "${{ steps.landed.outputs.path }}"
+            }
+
+      - name: Append PAO RELAY signal
+        run: |
+          python3 scripts/append_signal.py \
+            --mission-id "${{ inputs.mission_id }}" \
+            --mission-dir "missions/${{ inputs.mission_id }}" \
+            --controller PAO \
+            --phase ${{ inputs.phase }} \
+            --signal RELAY \
+            --reason "repository_dispatch sent to ry-ops/fabric-social"
