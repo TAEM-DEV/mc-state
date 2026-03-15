@@ -25,11 +25,6 @@ jobs:
     name: "NAV corpus ingestion"
     runs-on: ubuntu-latest
     steps:
-      - name: Connect to Tailscale
-        uses: tailscale/github-action@v2
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
       - name: Checkout mc-state
         uses: actions/checkout@v4
         with:
@@ -54,14 +49,12 @@ jobs:
       - name: Build integration map
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ECOSYSTEM_URL: ${{ secrets.ECOSYSTEM_URL }}
         run: |
           python3 scripts/build_integration_map.py \
             --mission-id "${{ inputs.mission_id }}" \
             --mission-dir "missions/${{ inputs.mission_id }}" \
             --repos "${{ inputs.repos }}" \
-            --gh-token "$GH_TOKEN" \
-            --ecosystem-url "$ECOSYSTEM_URL"
+            --gh-token "$GH_TOKEN"
 
       - name: Commit integration map
         run: |
