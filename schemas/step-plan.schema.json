@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TAEM-DEV/mc-state/schemas/step-plan.schema.json",
+  "title": "TAEM Step Plan",
+  "description": "INCO-produced ordered implementation steps",
+  "type": "object",
+  "required": ["mission_id", "steps"],
+  "properties": {
+    "mission_id": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["step_id", "title", "repo", "description", "dependencies", "test_harness"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "title": { "type": "string" },
+          "repo": { "type": "string" },
+          "description": { "type": "string" },
+          "files_modified": { "type": "array", "items": { "type": "string" } },
+          "dependencies": { "type": "array", "items": { "type": "string" } },
+          "test_harness": { "type": ["string", "null"] },
+          "rollback": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

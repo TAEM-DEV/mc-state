@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TAEM-DEV/mc-state/schemas/manifest.schema.json",
+  "title": "TAEM Mission Manifest Event",
+  "description": "A manifest event entry in manifest.jsonl",
+  "type": "object",
+  "required": ["event_id", "mission_id", "event", "timestamp"],
+  "properties": {
+    "event_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "mission_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "event": { "type": "string", "enum": ["MISSION_START", "PHASE_START", "PHASE_COMPLETE", "REMEDIATION_START", "MISSION_LANDED", "MISSION_ABORTED", "MISSION_ESCALATED"] },
+    "phase": { "type": ["integer", "null"], "minimum": 0, "maximum": 6 },
+    "task": { "type": "string" },
+    "repos": { "type": "array", "items": { "type": "string" } },
+    "adrs": { "type": "array", "items": { "type": "string" } },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "duration_s": { "type": ["integer", "null"] }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TAEM-DEV/mc-state/schemas/signal.schema.json",
+  "title": "TAEM Signal",
+  "description": "A controller signal entry in signals.jsonl",
+  "type": "object",
+  "required": ["signal_id", "mission_id", "controller", "signal", "reason", "phase", "timestamp"],
+  "properties": {
+    "signal_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "mission_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "controller": { "type": "string" },
+    "signal": { "type": "string", "enum": ["GO", "NO-GO", "HOLD", "WARN", "RELAY", "ADVISORY"] },
+    "reason": { "type": "string" },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "constraint_ref": { "type": ["string", "null"] },
+    "phase": { "type": "integer", "minimum": 0, "maximum": 6 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "inference_notes": {
+      "type": ["object", "null"],
+      "properties": {
+        "inference_backend": { "type": "string", "enum": ["ollama", "anthropic"] },
+        "ollama_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "latency_ms": { "type": "integer" },
+        "fallback_used": { "type": "boolean" }
+      }
+    }
+  }
+}

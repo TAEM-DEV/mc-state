@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TAEM-DEV/mc-state/schemas/remediation.schema.json",
+  "title": "TAEM Remediation Record",
+  "description": "A remediation cycle entry in remediation.jsonl",
+  "type": "object",
+  "required": ["remediation_id", "mission_id", "cycle", "nogo_controller", "nogo_reason", "timestamp"],
+  "properties": {
+    "remediation_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "mission_id": { "type": "string", "pattern": "^[0-9A-Z]{26}$" },
+    "cycle": { "type": "integer", "minimum": 1, "maximum": 2 },
+    "nogo_controller": { "type": "string" },
+    "nogo_reason": { "type": "string" },
+    "constraint_ref": { "type": ["string", "null"] },
+    "remediation_action": { "type": "string" },
+    "outcome": { "type": "string", "enum": ["CLEARED", "ESCALATED"] },
+    "timestamp": { "type": "string", "format": "date-time" }
+  }
+}

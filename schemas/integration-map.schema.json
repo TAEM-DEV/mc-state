@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TAEM-DEV/mc-state/schemas/integration-map.schema.json",
+  "title": "TAEM Integration Map",
+  "description": "NAV-produced wiring diagram between repos",
+  "type": "object",
+  "required": ["mission_id", "repos", "wiring", "conflicts"],
+  "properties": {
+    "mission_id": { "type": "string" },
+    "repos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "org", "language"],
+        "properties": {
+          "name": { "type": "string" },
+          "org": { "type": "string" },
+          "language": { "type": "string" },
+          "last_commit_sha": { "type": "string" },
+          "cache_hit": { "type": "boolean" }
+        }
+      }
+    },
+    "wiring": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "type", "transport"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "type": { "type": "string" },
+          "transport": { "type": "string", "enum": ["unicast"] },
+          "target": { "type": "string" },
+          "arch_status": { "type": "string", "enum": ["PENDING", "CLEARED", "BLOCKED"] }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "repos": { "type": "array", "items": { "type": "string" } },
+          "detail": { "type": "string" }
+        }
+      }
+    }
+  }
+}
