@@ -25,10 +25,17 @@ jobs:
     name: "NAV corpus ingestion"
     runs-on: ubuntu-latest
     steps:
+      - name: Generate taem-flight App token
+        id: app-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.TAEM_APP_ID }}
+          private_key: ${{ secrets.TAEM_APP_PRIVATE_KEY }}
+
       - name: Checkout mc-state
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -48,7 +55,7 @@ jobs:
 
       - name: Build integration map
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           python3 scripts/build_integration_map.py \
             --mission-id "${{ inputs.mission_id }}" \
@@ -56,19 +63,26 @@ jobs:
             --repos "${{ inputs.repos }}" \
             --gh-token "$GH_TOKEN"
 
-      - name: Commit integration map
+      - name: Commit and push integration map
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git add "missions/${{ inputs.mission_id }}/integration-map.json"
+          git diff --cached --quiet && echo "nothing to commit" && exit 0
           git pull --rebase origin main
-          git commit -m "taem: NAV integration-map for ${{ inputs.mission_id }}" || true
-          git push origin main || true
+          git commit -m "taem: NAV integration-map for ${{ inputs.mission_id }}"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/TAEM-DEV/mc-state.git
+          git push origin main
 
       - name: Append NAV GO signal
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/TAEM-DEV/mc-state.git
           python3 scripts/append_signal.py \
             --mission-id "${{ inputs.mission_id }}" \
             --mission-dir "missions/${{ inputs.mission_id }}" \
             --controller NAV \
             --phase ${{ inputs.phase }} \
             --signal GO \
-            --reason "Integration map built"
+            --reason "Integration map built and committed"
