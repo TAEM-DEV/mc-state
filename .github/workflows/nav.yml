@@ -73,9 +73,6 @@ jobs:
           git commit -m "taem: NAV integration-map for ${{ inputs.mission_id }}"
           git pull --rebase origin main
           git push origin main
-          exit 0
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/TAEM-DEV/mc-state.git
-          git push origin main
 
       - name: Append NAV GO signal
         env:
