@@ -1,0 +1,67 @@
+{
+  "mission_id": "MSN-75bf1704e18870c9",
+  "generated_at": "2026-03-17T01:33:27.321261+00:00",
+  "generated_by": "NAV",
+  "nav_signal": "GO",
+  "repos": [
+    {
+      "name": "cve",
+      "org": "git-fabric",
+      "language": "unknown",
+      "last_commit_sha": "unknown",
+      "last_updated": "2026-03-17T01:33:24.168141+00:00",
+      "status": "fresh",
+      "exposes": [],
+      "consumes": [],
+      "active_constraints": [],
+      "known_patterns": []
+    },
+    {
+      "name": "git-steer",
+      "org": "ry-ops",
+      "language": "TypeScript",
+      "last_commit_sha": "fd62666995f8634df511669361f79c3c76feea2a",
+      "last_updated": "2026-03-17T01:33:27.321212+00:00",
+      "status": "fresh",
+      "exposes": [
+        {
+          "type": "github_workflow",
+          "name": "code-quality",
+          "file_path": ".github/workflows/code-quality.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "heartbeat",
+          "file_path": ".github/workflows/heartbeat.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "security-fix",
+          "file_path": ".github/workflows/security-fix.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "security-sweep",
+          "file_path": ".github/workflows/security-sweep.yml"
+        },
+        {
+          "type": "http_endpoint",
+          "name": "http_server",
+          "file_path": "src/fabric/app.ts"
+        }
+      ],
+      "consumes": [
+        {
+          "type": "dependency_manifest",
+          "source": "package.json",
+          "event": null
+        }
+      ],
+      "active_constraints": [],
+      "known_patterns": []
+    }
+  ],
+  "wiring": [],
+  "conflicts": [],
+  "unresolved": []
+}
