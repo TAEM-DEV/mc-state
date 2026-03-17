@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAEM Mission Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0e13;--bg2:#0d1410;--bg3:#111a10;
+  --border:#1e2a1a;--border2:#2a3a20;
+  --amber:#e8c87a;--amber2:#c8a030;
+  --green:#5aaa40;--green2:#3a7a28;--green3:#1e4014;
+  --muted:#7a9a60;--muted2:#4a6a38;--muted3:#2a4020;
+  --red:#c84040;--yellow:#c8a030;--blue:#4090c8;
+  --text:#c8a96e;
+  --mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:var(--mono);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+.site-header{border-bottom:1px solid var(--border);padding:clamp(12px,3vw,20px) clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:32px;height:32px;border:1px solid var(--green2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--green);flex-shrink:0}
+.logo-title{font-size:clamp(13px,2.5vw,15px);font-weight:600;color:var(--amber);letter-spacing:.08em}
+.logo-sub{font-size:10px;color:var(--muted2);letter-spacing:.15em;text-transform:uppercase}
+.site-status{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--muted);letter-spacing:.1em}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.main{padding:clamp(16px,4vw,32px);max-width:1400px;margin:0 auto}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:clamp(16px,3vw,24px)}
+.metric{background:var(--bg2);border:1px solid var(--border);padding:clamp(10px,2vw,14px)}
+.metric-label{font-size:clamp(8px,1.5vw,9px);letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;margin-bottom:6px}
+.metric-value{font-size:clamp(20px,4vw,28px);font-weight:600;color:var(--amber);line-height:1}
+.metric-unit{font-size:clamp(9px,1.5vw,10px);color:var(--muted2);margin-top:3px}
+.sec-hdr{font-size:clamp(8px,1.5vw,9px);letter-spacing:.25em;color:var(--muted2);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.mission-card{background:var(--bg2);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s}
+.mission-card:hover{border-color:var(--border2);background:var(--bg3)}
+.mission-card.active{border-color:var(--green2)}
+.mc-bar{height:2px;background:var(--muted3)}
+.mc-bar.landed{background:var(--green)}
+.mc-bar.escalated{background:var(--red)}
+.mc-bar.running{background:var(--yellow);animation:pulse 1s infinite}
+.mc-body{padding:clamp(10px,2vw,14px) clamp(12px,2vw,16px);display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+.mc-id{font-size:clamp(10px,1.8vw,12px);font-weight:600;color:var(--amber);letter-spacing:.05em;word-break:break-all}
+.mc-task{font-size:clamp(10px,1.8vw,11px);color:var(--muted);margin-top:3px;line-height:1.4}
+.mc-meta{font-size:clamp(9px,1.5vw,10px);color:var(--muted2);margin-top:4px;display:flex;flex-wrap:wrap;gap:8px}
+.badge{font-size:clamp(8px,1.5vw,9px);letter-spacing:.15em;padding:3px 8px;white-space:nowrap;font-weight:600}
+.b-landed{color:var(--green);background:var(--green3);border:1px solid var(--green2)}
+.b-escalated{color:var(--red);background:#1a0808;border:1px solid #4a1a1a}
+.b-running{color:var(--yellow);background:#1a1408;border:1px solid #4a3a08}
+.b-unknown{color:var(--muted);background:var(--bg);border:1px solid var(--border)}
+.detail{background:var(--bg2);border:1px solid var(--border);display:none}
+.detail.visible{display:block}
+.d-header{padding:clamp(12px,2vw,16px);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+.d-id{font-size:clamp(14px,3vw,18px);font-weight:600;color:var(--amber);word-break:break-all}
+.d-task{font-size:clamp(10px,1.8vw,11px);color:var(--muted);margin-top:4px;line-height:1.5}
+.d-repos{font-size:clamp(9px,1.5vw,10px);color:var(--muted2);margin-top:4px}
+.phases{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border)}
+@media(max-width:640px){.phases{grid-template-columns:repeat(4,1fr)}.phase:nth-child(n+5){border-top:1px solid var(--border)}}
+@media(max-width:380px){.phases{grid-template-columns:repeat(2,1fr)}}
+.phase{padding:clamp(8px,2vw,12px) clamp(6px,1.5vw,10px);border-right:1px solid var(--border);position:relative}
+.phase:last-child{border-right:none}
+.phase.done{background:#0a1408}
+.phase-num{font-size:clamp(16px,3.5vw,22px);font-weight:600;color:var(--muted3);line-height:1;margin-bottom:3px}
+.phase.done .phase-num{color:var(--green)}
+.phase-name{font-size:clamp(7px,1.2vw,8px);letter-spacing:.1em;color:var(--muted2);text-transform:uppercase;line-height:1.3;margin-bottom:4px}
+.phase-dur{font-size:clamp(8px,1.5vw,10px);color:var(--green2)}
+.phase-bar{position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--green);transition:width .6s ease}
+.phase.done .phase-bar{width:100%}
+.sigs-grid{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:680px){.sigs-grid{grid-template-columns:1fr}}
+.sig-group{padding:clamp(10px,2vw,14px) clamp(12px,2vw,16px);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sig-group:nth-child(2n){border-right:none}
+@media(max-width:680px){.sig-group{border-right:none}}
+.sg-lbl{font-size:clamp(8px,1.5vw,9px);letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.sig-row{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid #0d1410;flex-wrap:wrap}
+.sig-row:last-child{border-bottom:none}
+.s-cs{font-size:clamp(10px,1.8vw,11px);color:#a8b890;letter-spacing:.06em;min-width:70px;font-weight:500;flex-shrink:0}
+.s-rsn{font-size:clamp(9px,1.5vw,10px);color:var(--muted2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.s-val{font-size:clamp(9px,1.5vw,10px);letter-spacing:.12em;font-weight:600;flex-shrink:0}
+.go{color:var(--green)}.nogo{color:var(--red)}.hold{color:var(--yellow)}.relay{color:var(--blue)}.adv{color:var(--muted2)}
+.inf-panel{padding:clamp(10px,2vw,14px) clamp(12px,2vw,16px);border-bottom:1px solid var(--border)}
+.inf-row{display:grid;grid-template-columns:80px 60px 1fr 48px 60px;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #0d1410;font-size:clamp(9px,1.5vw,10px)}
+@media(max-width:500px){.inf-row{grid-template-columns:70px 50px 1fr 40px}.inf-lat{display:none}}
+.inf-row:last-child{border-bottom:none}
+.inf-cs{color:#a8b890;letter-spacing:.06em;font-weight:500}
+.inf-be{color:var(--muted)}
+.cbar{height:4px;background:var(--muted3)}
+.cfill{height:100%;background:var(--amber2)}
+.inf-cv{color:var(--amber2);text-align:right}
+.inf-lat{color:var(--muted2);text-align:right}
+.state-msg{padding:40px 20px;text-align:center;font-size:clamp(11px,2vw,13px);color:var(--muted2);letter-spacing:.1em}
+.ld::after{content:'...';animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+.site-footer{border-top:1px solid var(--border);padding:14px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:clamp(9px,1.5vw,10px);color:var(--muted2);letter-spacing:.1em}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2)}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo">
+    <div class="logo-mark">MC</div>
+    <div>
+      <div class="logo-title">TAEM Mission Control</div>
+      <div class="logo-sub">Preflight Dashboard · TAEM-DEV/mc-state</div>
+    </div>
+  </div>
+  <div class="site-status">
+    <div class="pulse"></div>
+    <span id="st">Loading missions</span>
+  </div>
+</header>
+
+<main class="main">
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">Total Missions</div><div class="metric-value" id="m-tot">—</div><div class="metric-unit">all time</div></div>
+    <div class="metric"><div class="metric-label">Landed</div><div class="metric-value" id="m-land" style="color:var(--green)">—</div><div class="metric-unit">successful</div></div>
+    <div class="metric"><div class="metric-label">Escalated</div><div class="metric-value" id="m-esc" style="color:var(--red)">—</div><div class="metric-unit">aborted</div></div>
+    <div class="metric"><div class="metric-label">Landing Rate</div><div class="metric-value" id="m-rate">—</div><div class="metric-unit">success %</div></div>
+    <div class="metric"><div class="metric-label">Avg Duration</div><div class="metric-value" id="m-avg">—</div><div class="metric-unit">min:sec</div></div>
+  </div>
+  <div class="sec-hdr">Mission Log</div>
+  <div id="list"><div class="state-msg"><span class="ld">Fetching missions</span></div></div>
+  <div class="sec-hdr" id="dsh" style="display:none;margin-top:24px">Mission Detail</div>
+  <div class="detail" id="dpanel"></div>
+</main>
+
+<footer class="site-footer">
+  <span>TAEM-DEV · ry-ops.dev</span>
+  <span id="fupdated">—</span>
+  <span>ADR-003 · ADR-005 · ADR-007</span>
+</footer>
+
+<script>
+const OWNER='TAEM-DEV',REPO='mc-state';
+const API=`https://api.github.com/repos/${OWNER}/${REPO}`;
+const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO}/main`;
+
+const PH=[
+  {n:'00',name:'PAD CHECK'},{n:'01',name:'NAV CORPUS'},
+  {n:'02',name:'ARCH SURVEY'},{n:'03',name:'PLAN FORM'},
+  {n:'04',name:'PRE-CODE'},{n:'05',name:'CAPCOM'},{n:'06',name:'PAO RELAY'},
+];
+
+const GROUPS=[
+  {lbl:'Phase 00 — Pad Check',cs:['GC','DPS','EECOM']},
+  {lbl:'Phase 01 — NAV',cs:['NAV']},
+  {lbl:'Phase 02–03 — Arch + Plan',cs:['CDS','PCO','ARCH','INCO']},
+  {lbl:'Phase 04 — Pre-Code',cs:['TRC','SECINSP','PRB-SKP','PRB-COR','PRB-ADR']},
+  {lbl:'Phase 05–06 — Output',cs:['CAPCOM','PAO']},
+];
+
+const INF_CS=['SECINSP','PRB-SKP','PRB-COR','PRB-ADR'];
+
+let missions=[], active=null;
+
+async function get(url){const r=await fetch(url);if(!r.ok)throw r.status;return r.json()}
+async function txt(url){const r=await fetch(url);if(!r.ok)return '';return r.text()}
+
+function jl(t){return t.trim().split('\n').filter(Boolean).map(l=>{try{return JSON.parse(l)}catch{return null}}).filter(Boolean)}
+
+function dur(a,b){
+  if(!a||!b)return '—';
+  const ms=new Date(b)-new Date(a);
+  if(isNaN(ms)||ms<0)return '—';
+  const s=Math.floor(ms/1000),m=Math.floor(s/60);
+  return `${m}:${String(s%60).padStart(2,'0')}`;
+}
+
+function fmt(iso){
+  if(!iso)return '—';
+  return new Date(iso).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function status(mf){
+  const ev=mf.map(e=>e.event);
+  if(ev.includes('MISSION_LANDED'))return 'landed';
+  if(ev.some(e=>e.includes('ESCALAT')||e.includes('ABORT')))return 'escalated';
+  if(ev.includes('MISSION_START'))return 'running';
+  return 'unknown';
+}
+
+function phaseDur(mf,n){
+  const s=mf.find(e=>e.event==='PHASE_START'&&e.phase===n);
+  const e=mf.find(e=>e.event==='PHASE_COMPLETE'&&e.phase===n);
+  if(!s||!e)return null;
+  const ms=new Date(e.timestamp)-new Date(s.timestamp);
+  if(ms<1000)return '<1s';
+  const sec=Math.floor(ms/1000);
+  return sec<60?`${sec}s`:`${Math.floor(sec/60)}m${sec%60}s`;
+}
+
+function sigCls(v){
+  if(!v)return 'adv';
+  const s=v.toUpperCase();
+  return s==='GO'?'go':s==='NO-GO'?'nogo':s==='HOLD'?'hold':s==='RELAY'?'relay':'adv';
+}
+
+async function load(){
+  try{
+    const contents=await get(`${API}/contents/missions`);
+    const dirs=contents.filter(f=>f.type==='dir'&&f.name.startsWith('MSN-'));
+    dirs.sort((a,b)=>b.name.localeCompare(a.name));
+
+    missions=await Promise.all(dirs.map(async d=>{
+      try{
+        const [mt,st]=await Promise.all([
+          txt(`${RAW}/missions/${d.name}/manifest.jsonl`),
+          txt(`${RAW}/missions/${d.name}/signals.jsonl`),
+        ]);
+        const mf=jl(mt),sigs=jl(st);
+        const start=mf.find(e=>e.event==='MISSION_START');
+        const landed=mf.find(e=>e.event==='MISSION_LANDED');
+        return{
+          id:d.name,mf,sigs,
+          status:status(mf),
+          task:start?.task||'—',
+          repos:start?.repos||[],
+          adrs:start?.adrs||[],
+          startedAt:start?.timestamp,
+          landedAt:landed?.timestamp,
+        };
+      }catch{return null}
+    }));
+    missions=missions.filter(Boolean);
+    renderMetrics();
+    renderList();
+    document.getElementById('st').textContent=`${missions.length} missions loaded`;
+    document.getElementById('fupdated').textContent=`Updated ${new Date().toLocaleTimeString()}`;
+    if(missions.length)showDetail(missions[0]);
+  }catch(e){
+    document.getElementById('list').innerHTML='<div class="state-msg">Failed to load — check repo access or enable GitHub Pages</div>';
+    document.getElementById('st').textContent='Error';
+  }
+}
+
+function renderMetrics(){
+  const tot=missions.length;
+  const land=missions.filter(m=>m.status==='landed').length;
+  const esc=missions.filter(m=>m.status==='escalated').length;
+  const rate=tot?Math.round(land/tot*100):0;
+  const durs=missions.filter(m=>m.startedAt&&m.landedAt).map(m=>new Date(m.landedAt)-new Date(m.startedAt)).filter(d=>d>0);
+  const avgMs=durs.length?durs.reduce((a,b)=>a+b,0)/durs.length:0;
+  const avgS=Math.floor(avgMs/1000);
+  const avgFmt=avgS?`${Math.floor(avgS/60)}:${String(avgS%60).padStart(2,'0')}`:'—';
+  document.getElementById('m-tot').textContent=tot;
+  document.getElementById('m-land').textContent=land;
+  document.getElementById('m-esc').textContent=esc;
+  document.getElementById('m-rate').textContent=tot?`${rate}%`:'—';
+  document.getElementById('m-avg').textContent=avgFmt;
+}
+
+function renderList(){
+  const el=document.getElementById('list');
+  if(!missions.length){el.innerHTML='<div class="state-msg">No missions found</div>';return}
+  el.innerHTML=missions.map(m=>{
+    const bc=m.status==='landed'?'landed':m.status==='escalated'?'escalated':m.status==='running'?'running':'';
+    const d=dur(m.startedAt,m.landedAt||new Date().toISOString());
+    return `
+      <div class="mission-card" id="c-${m.id}" onclick="showDetail(missions.find(x=>x.id==='${m.id}'))">
+        <div class="mc-bar ${bc}"></div>
+        <div class="mc-body">
+          <div>
+            <div class="mc-id">${m.id}</div>
+            <div class="mc-task">${m.task}</div>
+            <div class="mc-meta">
+              <span>${fmt(m.startedAt)}</span>
+              ${m.repos.length?`<span>${m.repos.join(' · ')}</span>`:''}
+              <span>${d}</span>
+            </div>
+          </div>
+          <span class="badge b-${m.status}">${m.status.toUpperCase()}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function showDetail(m){
+  if(!m)return;
+  document.querySelectorAll('.mission-card').forEach(c=>c.classList.remove('active'));
+  const card=document.getElementById(`c-${m.id}`);
+  if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'})}
+  active=m;
+  const panel=document.getElementById('dpanel');
+  document.getElementById('dsh').style.display='';
+  panel.classList.add('visible');
+
+  const done=new Set(m.mf.filter(e=>e.event==='PHASE_COMPLETE').map(e=>e.phase));
+  const phasesHTML=PH.map((p,i)=>`
+    <div class="phase${done.has(i)?' done':''}">
+      <div class="phase-num">${p.n}</div>
+      <div class="phase-name">${p.name}</div>
+      <div class="phase-dur">${phaseDur(m.mf,i)||'—'}</div>
+      <div class="phase-bar"></div>
+    </div>`).join('');
+
+  const dedup={};
+  m.sigs.forEach(s=>{dedup[s.controller]=s});
+  const sigs=Object.values(dedup);
+
+  const sigsHTML=GROUPS.map(g=>{
+    const rows=g.cs.map(cs=>{
+      const s=sigs.find(x=>x.controller===cs);
+      if(!s)return '';
+      const rsn=(s.reason||'').split('\n')[0].slice(0,80);
+      return `<div class="sig-row">
+        <span class="s-cs">${cs}</span>
+        <span class="s-rsn" title="${(s.reason||'').replace(/"/g,"'")}">${rsn}</span>
+        <span class="s-val ${sigCls(s.signal)}">${(s.signal||'—').toUpperCase()}</span>
+      </div>`;
+    }).join('');
+    if(!rows)return '';
+    return `<div class="sig-group"><div class="sg-lbl">${g.lbl}</div>${rows}</div>`;
+  }).join('');
+
+  const infSigs=sigs.filter(s=>INF_CS.includes(s.controller));
+  const infHTML=infSigs.length?`
+    <div class="inf-panel">
+      <div class="sec-hdr" style="margin-bottom:10px">Inference Telemetry — Ollama llama3.2</div>
+      ${infSigs.map(s=>{
+        const n=s.inference_notes||{};
+        const conf=n.ollama_confidence||0;
+        const lat=n.latency_ms?`${(n.latency_ms/1000).toFixed(1)}s`:'HOLD';
+        const be=n.inference_backend||'queued';
+        const pct=Math.round(conf*100);
+        return `<div class="inf-row">
+          <span class="inf-cs">${s.controller}</span>
+          <span class="inf-be">${be}</span>
+          <div class="cbar"><div class="cfill" style="width:${pct}%"></div></div>
+          <span class="inf-cv">${conf?conf.toFixed(2):'—'}</span>
+          <span class="inf-lat">${lat}</span>
+        </div>`;
+      }).join('')}
+    </div>`:'';
+
+  const d=dur(m.startedAt,m.landedAt);
+  panel.innerHTML=`
+    <div class="d-header">
+      <div>
+        <div class="d-id">${m.id}</div>
+        <div class="d-task">${m.task}</div>
+        <div class="d-repos">${m.repos.join(' · ')} · ${m.adrs.join(' ')}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="badge b-${m.status}">${m.status.toUpperCase()}</span>
+        ${d!=='—'?`<span style="font-size:10px;color:var(--muted2)">${d}</span>`:''}
+        <span style="font-size:10px;color:var(--muted2)">${fmt(m.startedAt)}</span>
+      </div>
+    </div>
+    <div class="phases">${phasesHTML}</div>
+    <div class="sigs-grid">${sigsHTML}</div>
+    ${infHTML}`;
+
+  panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+load();
+</script>
+</body>
+</html>
