@@ -1,0 +1,16 @@
+{"event_id":"MSN-130dada169395701-start","mission_id":"MSN-130dada169395701","event":"MISSION_START","phase":0,"task":"Remediation Cycle 1: Fix SECINSP (SEC-001, SEC-002, SEC-003, SEC-010), TRC (zero coverage), PRB (dual Octokit, unguarded destructive tools, zero-footprint violations). See TAEM-DEV/missions/git-steer-remediation-cycle-1.md for full plan.","repos":["ry-ops/git-steer"],"adrs":["ADR-001","ADR-002","ADR-003","ADR-007"],"timestamp":"2026-03-18T00:16:03Z"}
+{"event_id":"MSN-130dada169395701-p00-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":0,"timestamp":"2026-03-18T00:16:04Z"}
+{"event_id":"MSN-130dada169395701-p00-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":0,"timestamp":"2026-03-18T00:16:04Z"}
+{"event_id":"MSN-130dada169395701-p01-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":1,"timestamp":"2026-03-18T00:16:05Z"}
+{"event_id":"MSN-130dada169395701-p01-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":1,"timestamp":"2026-03-18T00:16:29Z"}
+{"event_id":"MSN-130dada169395701-p02-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":2,"timestamp":"2026-03-18T00:16:30Z"}
+{"event_id":"MSN-130dada169395701-p02-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":2,"timestamp":"2026-03-18T00:16:30Z"}
+{"event_id":"MSN-130dada169395701-p03-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":3,"timestamp":"2026-03-18T00:16:30Z"}
+{"event_id":"MSN-130dada169395701-p03-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":3,"timestamp":"2026-03-18T00:16:30Z"}
+{"event_id":"MSN-130dada169395701-p04-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":4,"timestamp":"2026-03-18T00:16:31Z"}
+{"event_id":"MSN-130dada169395701-p04-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":4,"timestamp":"2026-03-18T00:19:17Z"}
+{"event_id":"MSN-130dada169395701-p05-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":5,"timestamp":"2026-03-18T00:22:06Z"}
+{"event_id":"MSN-130dada169395701-p05-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":5,"timestamp":"2026-03-18T00:22:06Z"}
+{"event_id":"MSN-130dada169395701-p06-start","mission_id":"MSN-130dada169395701","event":"PHASE_START","phase":6,"timestamp":"2026-03-18T00:22:06Z"}
+{"event_id":"MSN-130dada169395701-p06-complete","mission_id":"MSN-130dada169395701","event":"PHASE_COMPLETE","phase":6,"timestamp":"2026-03-18T00:22:43Z"}
+{"event_id":"MSN-130dada169395701-landed","mission_id":"MSN-130dada169395701","event":"MISSION_LANDED","phase":null,"timestamp":"2026-03-18T00:22:43Z"}
