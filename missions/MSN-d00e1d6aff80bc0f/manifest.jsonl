@@ -1,0 +1,16 @@
+{"event_id":"MSN-d00e1d6aff80bc0f-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"MISSION_START","phase":0,"task":"Remediation Cycle 1: Fix SECINSP (SEC-001, SEC-002, SEC-003, SEC-010), TRC (zero coverage), PRB (dual Octokit, unguarded destructive tools, zero-footprint violations). See TAEM-DEV/missions/git-steer-remediation-cycle-1.md for full plan.","repos":["ry-ops/git-steer"],"adrs":["ADR-001","ADR-002","ADR-003","ADR-007"],"timestamp":"2026-03-18T00:08:43Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p00-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":0,"timestamp":"2026-03-18T00:08:44Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p00-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":0,"timestamp":"2026-03-18T00:08:44Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p01-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":1,"timestamp":"2026-03-18T00:08:45Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p01-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":1,"timestamp":"2026-03-18T00:09:03Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p02-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":2,"timestamp":"2026-03-18T00:09:04Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p02-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":2,"timestamp":"2026-03-18T00:09:04Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p03-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":3,"timestamp":"2026-03-18T00:09:04Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p03-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":3,"timestamp":"2026-03-18T00:09:04Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p04-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":4,"timestamp":"2026-03-18T00:09:05Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p04-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":4,"timestamp":"2026-03-18T00:09:50Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p05-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":5,"timestamp":"2026-03-18T00:09:51Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p05-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":5,"timestamp":"2026-03-18T00:09:51Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p06-start","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_START","phase":6,"timestamp":"2026-03-18T00:09:51Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-p06-complete","mission_id":"MSN-d00e1d6aff80bc0f","event":"PHASE_COMPLETE","phase":6,"timestamp":"2026-03-18T00:10:37Z"}
+{"event_id":"MSN-d00e1d6aff80bc0f-landed","mission_id":"MSN-d00e1d6aff80bc0f","event":"MISSION_LANDED","phase":null,"timestamp":"2026-03-18T00:10:37Z"}
