@@ -1,0 +1,16 @@
+{"event_id":"MSN-0dcac59e92f69a49-start","mission_id":"MSN-0dcac59e92f69a49","event":"MISSION_START","phase":0,"task":"CO-008-002 verification: Post-remediation review of git-steer with qwen2.5-coder:7b + ExtractJSON fix. Verify SECINSP, TRC, and PRB clearance.","repos":["ry-ops/git-steer"],"adrs":["ADR-001","ADR-002","ADR-003","ADR-007","ADR-008"],"timestamp":"2026-03-18T12:29:25Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p00-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":0,"timestamp":"2026-03-18T12:29:25Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p00-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":0,"timestamp":"2026-03-18T12:29:26Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p01-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":1,"timestamp":"2026-03-18T12:29:26Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p01-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":1,"timestamp":"2026-03-18T12:29:51Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p02-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":2,"timestamp":"2026-03-18T12:29:51Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p02-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":2,"timestamp":"2026-03-18T12:29:51Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p03-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":3,"timestamp":"2026-03-18T12:29:52Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p03-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":3,"timestamp":"2026-03-18T12:29:52Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p04-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":4,"timestamp":"2026-03-18T12:29:52Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p04-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":4,"timestamp":"2026-03-18T12:35:52Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p05-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":5,"timestamp":"2026-03-18T12:46:50Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p05-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":5,"timestamp":"2026-03-18T12:46:50Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p06-start","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_START","phase":6,"timestamp":"2026-03-18T12:46:54Z"}
+{"event_id":"MSN-0dcac59e92f69a49-p06-complete","mission_id":"MSN-0dcac59e92f69a49","event":"PHASE_COMPLETE","phase":6,"timestamp":"2026-03-18T12:48:19Z"}
+{"event_id":"MSN-0dcac59e92f69a49-landed","mission_id":"MSN-0dcac59e92f69a49","event":"MISSION_LANDED","phase":null,"timestamp":"2026-03-18T12:48:19Z"}
