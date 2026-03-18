@@ -1,0 +1,55 @@
+{
+  "mission_id": "TEST-manual",
+  "generated_at": "2026-03-18T00:00:55.847365+00:00",
+  "generated_by": "NAV",
+  "nav_signal": "GO",
+  "repos": [
+    {
+      "name": "git-steer",
+      "org": "ry-ops",
+      "language": "TypeScript",
+      "last_commit_sha": "fd62666995f8634df511669361f79c3c76feea2a",
+      "last_updated": "2026-03-18T00:00:55.847317+00:00",
+      "status": "fresh",
+      "exposes": [
+        {
+          "type": "github_workflow",
+          "name": "code-quality",
+          "file_path": ".github/workflows/code-quality.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "heartbeat",
+          "file_path": ".github/workflows/heartbeat.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "security-fix",
+          "file_path": ".github/workflows/security-fix.yml"
+        },
+        {
+          "type": "github_workflow",
+          "name": "security-sweep",
+          "file_path": ".github/workflows/security-sweep.yml"
+        },
+        {
+          "type": "http_endpoint",
+          "name": "http_server",
+          "file_path": "src/fabric/app.ts"
+        }
+      ],
+      "consumes": [
+        {
+          "type": "dependency_manifest",
+          "source": "package.json",
+          "event": null
+        }
+      ],
+      "active_constraints": [],
+      "known_patterns": []
+    }
+  ],
+  "wiring": [],
+  "conflicts": [],
+  "unresolved": []
+}
