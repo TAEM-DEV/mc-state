@@ -12,6 +12,26 @@ on:
         required: true
         type: string
         default: "6"
+      task:
+        description: "Mission task description"
+        required: false
+        type: string
+        default: ""
+      repos:
+        description: "Comma-separated list of target repos"
+        required: false
+        type: string
+        default: ""
+      signal_summary:
+        description: "JSON string with signal counts (go, no_go, hold, warn, relay, total)"
+        required: false
+        type: string
+        default: "{}"
+      synthesis_artifacts:
+        description: "JSON string mapping artifact names to mc-state relative paths"
+        required: false
+        type: string
+        default: "{}"
 
 permissions:
   contents: read
@@ -28,14 +48,89 @@ jobs:
           app_id: ${{ secrets.TAEM_APP_ID }}
           private_key: ${{ secrets.TAEM_APP_PRIVATE_KEY }}
 
+      - name: Checkout mc-state for synthesis artifacts
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          sparse-checkout: |
+            missions/${{ inputs.mission_id }}/synthesis
+            missions/${{ inputs.mission_id }}/signals.jsonl
+            missions/${{ inputs.mission_id }}/manifest.jsonl
+          sparse-checkout-cone-mode: false
+
+      - name: Read synthesis artifacts
+        id: synthesis
+        run: |
+          MISSION_DIR="missions/${{ inputs.mission_id }}"
+
+          # Read blog draft if it exists.
+          BLOG_DRAFT=""
+          if [ -f "${MISSION_DIR}/synthesis/blog-draft.md" ]; then
+            BLOG_DRAFT=$(cat "${MISSION_DIR}/synthesis/blog-draft.md" | head -c 4000)
+            echo "blog_draft_found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "blog_draft_found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Read security report if it exists.
+          SECURITY_REPORT=""
+          if [ -f "${MISSION_DIR}/synthesis/security-report.json" ]; then
+            SECURITY_REPORT=$(cat "${MISSION_DIR}/synthesis/security-report.json" | head -c 4000)
+            echo "security_report_found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "security_report_found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Store for dispatch payload.
+          echo "blog_draft<<EOFBLOG" >> "$GITHUB_OUTPUT"
+          echo "$BLOG_DRAFT" >> "$GITHUB_OUTPUT"
+          echo "EOFBLOG" >> "$GITHUB_OUTPUT"
+
+          echo "security_report<<EOFSEC" >> "$GITHUB_OUTPUT"
+          echo "$SECURITY_REPORT" >> "$GITHUB_OUTPUT"
+          echo "EOFSEC" >> "$GITHUB_OUTPUT"
+
       - name: Dispatch to fabric-social
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          # Build the client_payload with all synthesis data.
+          PAYLOAD=$(jq -n \
+            --arg mission_id "${{ inputs.mission_id }}" \
+            --arg phase "${{ inputs.phase }}" \
+            --arg task "${{ inputs.task }}" \
+            --arg repos "${{ inputs.repos }}" \
+            --argjson signal_summary '${{ inputs.signal_summary }}' \
+            --argjson synthesis_artifacts '${{ inputs.synthesis_artifacts }}' \
+            --arg blog_draft "${{ steps.synthesis.outputs.blog_draft }}" \
+            --arg security_report "${{ steps.synthesis.outputs.security_report }}" \
+            --arg blog_draft_found "${{ steps.synthesis.outputs.blog_draft_found }}" \
+            --arg security_report_found "${{ steps.synthesis.outputs.security_report_found }}" \
+            '{
+              event_type: "taem-mission-landed",
+              client_payload: {
+                mission_id: $mission_id,
+                phase: $phase,
+                task: $task,
+                repos: ($repos | split(",")),
+                signal_summary: $signal_summary,
+                synthesis_artifacts: $synthesis_artifacts,
+                blog_draft: $blog_draft,
+                blog_draft_available: ($blog_draft_found == "true"),
+                security_report: $security_report,
+                security_report_available: ($security_report_found == "true")
+              }
+            }')
+
           curl -s -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/ry-ops/fabric-social/dispatches" \
-            -d "{\"event_type\":\"taem-mission-landed\",\"client_payload\":{\"mission_id\":\"${{ inputs.mission_id }}\",\"phase\":\"${{ inputs.phase }}\"}}" \
+            -d "$PAYLOAD" \
             || echo "PAO dispatch failed (non-fatal)"
+
+          echo "PAO dispatched for mission ${{ inputs.mission_id }}"
+          echo "  Task: ${{ inputs.task }}"
+          echo "  Blog draft available: ${{ steps.synthesis.outputs.blog_draft_found }}"
+          echo "  Security report available: ${{ steps.synthesis.outputs.security_report_found }}"
