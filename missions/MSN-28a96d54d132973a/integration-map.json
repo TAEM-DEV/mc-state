@@ -1,0 +1,23 @@
+{
+  "mission_id": "MSN-28a96d54d132973a",
+  "generated_at": "2026-03-19T23:04:08.108311+00:00",
+  "generated_by": "NAV",
+  "nav_signal": "GO",
+  "repos": [
+    {
+      "name": "social-ui",
+      "org": "fabric-forge",
+      "language": "unknown",
+      "last_commit_sha": "unknown",
+      "last_updated": "2026-03-19T23:04:08.108281+00:00",
+      "status": "fresh",
+      "exposes": [],
+      "consumes": [],
+      "active_constraints": [],
+      "known_patterns": []
+    }
+  ],
+  "wiring": [],
+  "conflicts": [],
+  "unresolved": []
+}
