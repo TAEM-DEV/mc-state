@@ -1,0 +1,23 @@
+{
+  "mission_id": "MSN-9cb8bf1f40e68332",
+  "generated_at": "2026-03-19T23:03:58.287159+00:00",
+  "generated_by": "NAV",
+  "nav_signal": "GO",
+  "repos": [
+    {
+      "name": "social",
+      "org": "fabric-forge",
+      "language": "unknown",
+      "last_commit_sha": "unknown",
+      "last_updated": "2026-03-19T23:03:58.287128+00:00",
+      "status": "fresh",
+      "exposes": [],
+      "consumes": [],
+      "active_constraints": [],
+      "known_patterns": []
+    }
+  ],
+  "wiring": [],
+  "conflicts": [],
+  "unresolved": []
+}
