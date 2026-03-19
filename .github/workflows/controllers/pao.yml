@@ -14,59 +14,28 @@ on:
         default: "6"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   pao:
     name: "PAO dispatch"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout mc-state
-        uses: actions/checkout@v4
+      - name: Generate taem-flight App token
+        id: app-token
+        uses: tibdex/github-app-token@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Configure git
-        run: |
-          git config user.name "taem-flight[bot]"
-          git config user.email "flight@taem-dev.github.io"
-
-      - name: Read LANDED.md
-        id: landed
-        run: |
-          LANDED_PATH="missions/${{ inputs.mission_id }}/LANDED.md"
-          if [ -f "$LANDED_PATH" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            echo "path=$LANDED_PATH" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
+          app_id: ${{ secrets.TAEM_APP_ID }}
+          private_key: ${{ secrets.TAEM_APP_PRIVATE_KEY }}
 
       - name: Dispatch to fabric-social
-        if: steps.landed.outputs.exists == 'true'
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ry-ops/fabric-social
-          event-type: mission-landed
-          client-payload: |
-            {
-              "mission_id": "${{ inputs.mission_id }}",
-              "mc_state_repo": "TAEM-DEV/mc-state",
-              "landed_path": "${{ steps.landed.outputs.path }}"
-            }
-
-      - name: Append PAO RELAY signal
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          python3 scripts/append_signal.py \
-            --mission-id "${{ inputs.mission_id }}" \
-            --mission-dir "missions/${{ inputs.mission_id }}" \
-            --controller PAO \
-            --phase ${{ inputs.phase }} \
-            --signal RELAY \
-            --reason "repository_dispatch sent to ry-ops/fabric-social"
+          curl -s -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/ry-ops/fabric-social/dispatches" \
+            -d "{\"event_type\":\"taem-mission-landed\",\"client_payload\":{\"mission_id\":\"${{ inputs.mission_id }}\",\"phase\":\"${{ inputs.phase }}\"}}" \
+            || echo "PAO dispatch failed (non-fatal)"
