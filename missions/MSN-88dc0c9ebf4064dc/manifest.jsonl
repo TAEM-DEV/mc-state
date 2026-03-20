@@ -1,0 +1,16 @@
+{"event_id":"MSN-88dc0c9ebf4064dc-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"MISSION_START","phase":0,"task":"Full shakedown review of fabric-forge/social — Fastify API + MCP server for LinkedIn automation.","repos":["fabric-forge/social"],"adrs":["ADR-001","ADR-002","ADR-003","ADR-007"],"timestamp":"2026-03-19T23:41:55Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p00-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":0,"timestamp":"2026-03-19T23:41:56Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p00-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":0,"timestamp":"2026-03-19T23:41:56Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p01-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":1,"timestamp":"2026-03-19T23:41:57Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p01-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":1,"timestamp":"2026-03-19T23:42:15Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p02-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":2,"timestamp":"2026-03-19T23:42:15Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p02-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":2,"timestamp":"2026-03-19T23:42:15Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p03-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":3,"timestamp":"2026-03-19T23:42:16Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p03-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":3,"timestamp":"2026-03-19T23:42:16Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p04-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":4,"timestamp":"2026-03-19T23:42:16Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p04-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":4,"timestamp":"2026-03-19T23:48:16Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p05-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":5,"timestamp":"2026-03-19T23:54:17Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p05-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":5,"timestamp":"2026-03-19T23:54:17Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p06-start","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_START","phase":6,"timestamp":"2026-03-19T23:54:18Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-p06-complete","mission_id":"MSN-88dc0c9ebf4064dc","event":"PHASE_COMPLETE","phase":6,"timestamp":"2026-03-19T23:56:15Z"}
+{"event_id":"MSN-88dc0c9ebf4064dc-landed","mission_id":"MSN-88dc0c9ebf4064dc","event":"MISSION_LANDED","phase":null,"timestamp":"2026-03-19T23:56:15Z"}

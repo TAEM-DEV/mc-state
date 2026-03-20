@@ -1,0 +1,16 @@
+{"event_id":"MSN-84c8142f6f12ea59-start","mission_id":"MSN-84c8142f6f12ea59","event":"MISSION_START","phase":0,"task":"Full shakedown review of fabric-forge/blog — Astro 5 static site.","repos":["fabric-forge/blog"],"adrs":["ADR-001","ADR-002","ADR-003","ADR-007"],"timestamp":"2026-03-19T23:41:53Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p00-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":0,"timestamp":"2026-03-19T23:41:54Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p00-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":0,"timestamp":"2026-03-19T23:41:54Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p01-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":1,"timestamp":"2026-03-19T23:41:55Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p01-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":1,"timestamp":"2026-03-19T23:42:13Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p02-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":2,"timestamp":"2026-03-19T23:42:13Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p02-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":2,"timestamp":"2026-03-19T23:42:13Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p03-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":3,"timestamp":"2026-03-19T23:42:14Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p03-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":3,"timestamp":"2026-03-19T23:42:14Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p04-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":4,"timestamp":"2026-03-19T23:42:14Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p04-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":4,"timestamp":"2026-03-19T23:48:04Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p05-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":5,"timestamp":"2026-03-19T23:48:05Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p05-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":5,"timestamp":"2026-03-19T23:48:05Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p06-start","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_START","phase":6,"timestamp":"2026-03-19T23:48:05Z"}
+{"event_id":"MSN-84c8142f6f12ea59-p06-complete","mission_id":"MSN-84c8142f6f12ea59","event":"PHASE_COMPLETE","phase":6,"timestamp":"2026-03-19T23:50:24Z"}
+{"event_id":"MSN-84c8142f6f12ea59-landed","mission_id":"MSN-84c8142f6f12ea59","event":"MISSION_LANDED","phase":null,"timestamp":"2026-03-19T23:50:24Z"}
