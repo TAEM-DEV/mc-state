@@ -85,3 +85,8 @@ JSON Schema files for validating mission artifacts:
 
 - [ADR-004 — Git-First Mission Architecture](https://github.com/TAEM-DEV/adrs/blob/main/ADR-004.yaml)
 - [ADR-007 — Kernel Architecture](https://github.com/TAEM-DEV/adrs/blob/main/ADR-007.yaml)
+
+<!-- org-footer -->
+---
+
+<p align="center"><sub>Part of <a href="https://github.com/TAEM-DEV">TAEM</a> · mission control preflight for software integration · built by <a href="https://github.com/ry-ops">ry-ops</a></sub></p>
